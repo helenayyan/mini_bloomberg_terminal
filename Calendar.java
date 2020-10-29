@@ -48,13 +48,35 @@ public class Calendar {
         displayUsersCalendarForGivenDay(userId, today);
     }
 
+    /*
+     * completed and tested
+     */
     public void displayUsersCalendarForGivenDay(int userId, LocalDate calendarDay) {
+        HashMap<Integer, String[][]> userDay = calendarDays.get(calendarDay);
+        String[][] allMeetings = userDay.get(organisingUser);
 
+        System.out.println(String.format("Meetings scheduled on %s:", calendarDay));
+        // iterate through the meetings
+        int i = 0;
+        while (i < allMeetings.length) {
+            if (allMeetings[i][1] != "") {
+                String startTime = indexToTime(i); //meeting start time
+                String topic = allMeetings[i][1];
+                i++;
+                // find the interval for meeting of this topic
+                while ((i < allMeetings.length) & (allMeetings[i][1] == topic)) {
+                    i++;
+                }
+                String endTime = indexToTime(i); // meeting ending time
+                System.out.println(String.format("Time: %1s - %2s, Topic: %3s;", startTime, endTime, topic));
+            } else {
+                i++;
+            }
+        }
     }
 
     /*
      * completed and tested
-     *
      */
     public void meetingTimeSuggestion(int organisingUser, LocalDate calendarDay, double earliestTime, double latestTime, double timeInterval) {
         //assume that the time intervals are put in double (eg 30m = 0.5 2hr = 2)
@@ -91,6 +113,7 @@ public class Calendar {
                 startSession++;
             }
         }
+
         // print out results
         if (availabilities.isEmpty()) {
             System.out.println("Sorry, there is no available time slot in the given time frame for the meeting");
@@ -117,8 +140,12 @@ public class Calendar {
         return timeString;
     }
 
-    public void meetingTimeScheduler(HashSet<Integer> listOfuserID, LocalDate calendarDay, int earliestTime, int latestTime, double timeInterval) {
+    public void meetingTimeScheduler(HashSet<Integer> listOfuserID, LocalDate calendarDay, double earliestTime, double latestTime, double timeInterval) {
+        List<String> commonAvails = new ArrayList<>();
+        List<String> availabilities = new ArrayList<>();
+        for (int userId : listOfuserID) {
 
+        }
     }
 }
 
