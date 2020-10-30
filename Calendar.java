@@ -1,42 +1,62 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 public class Calendar {
     private LocalDate date;
-
-    // calendarMap <key=calendarDay, value = < key=userID, value = Arrary [[8,None],[8.5,'Topic'],[9,...]] > >
-
+    
     //each day in the calendar is mapped to a map of user ids and their meetings
     private HashMap<LocalDate, HashMap<Integer, String[][]>> calendarDays = new HashMap<LocalDate, HashMap<Integer, String[][]>>();
-
-    //each user id is mapped to their meetings for a particular day
-    private HashMap<Integer, String[][]> userMeetings = new HashMap<Integer, String[][]>();
-
-    //2-d array of meetings. Each element contains [time, topic/Null]
-    private String[][] meetingsInDay = {{"8", ""}, {"8.5", ""}, {"9", ""}, {"9.5", ""}, {"10", ""}, {"10.5", ""}, {"11", ""}, {"11.5", ""}, {"12", ""},
+    String[][] defaultMeetings = {{"8", ""}, {"8.5", ""}, {"9", ""}, {"9.5", ""}, {"10", ""}, {"10.5", ""}, {"11", ""}, {"11.5", ""}, {"12", ""},
             {"12.5", ""}, {"13", ""}, {"13.5", ""}, {"14", ""}, {"14.5", ""}, {"15", ""}, {"15.5", ""}, {"16", ""}, {"16.5", ""}, {"17", ""}, {"17.5", ""}};
+    
+    public void createANewDay(HashSet<Integer> userIds) {
+    	//each user id is mapped to their meetings for a particular day
+	     HashMap<Integer, String[][]> userMeetings = new HashMap<Integer, String[][]>();
 
-
+	    //2-d array of meetings. Each element contains [time, topic/Null]
+	     String[][] defaultMeetings = {{"8.0", ""}, {"8.5", ""}, {"9.0", ""}, {"9.5", ""}, {"10.0", ""}, {"10.5", ""}, {"11.0", ""}, {"11.5", ""}, {"12.0", ""},
+	            {"12.5", ""}, {"13.0", ""}, {"13.5", ""}, {"14.0", ""}, {"14.5", ""}, {"15.0", ""}, {"15.5", ""}, {"16.0", ""}, {"16.5", ""}, {"17.0", ""}, {"17.5", ""}};
+	     
+	     for (int userId : userIds) {
+		     userMeetings.put(userId, defaultMeetings);
+	     }
+	     //Using current date as calendar day. Can be changed to any date
+	     calendarDays.put(LocalDate.now(), userMeetings);
+    }
     /*
-     * gonna complete later
+     * completed and tested
      */
     public void addMeeting(HashSet<Integer> listOfUsers, double startTime, double endTime, String topic, LocalDate calendarDay) {
+
+    	//parse times to String
+    	String stringStartTime = Double.toString(startTime);
+    	String stringEndTime = Double.toString(endTime);
         //assume that the time is entered in the format ( 1.30pm = 13.5)
+    	
         HashMap<Integer, String[][]> userDay = calendarDays.get(calendarDay);
+        
+        for (Integer j : listOfUsers) {
+        	String[][] userMeetings = userDay.get(j);
+        	
+        	boolean isFound = false;
+        	boolean reachedEnd = false;
+        	int index = 0;
+        	while ((isFound == false) ||  (reachedEnd == false)) {
 
-        //note: bad complexity here (order n^2) because of nested loop - should consider a better way
-        for (Integer i : listOfUsers) {
-            String[][] userMeetings = userDay.get(i);
-
-            //assume that the start and end times are free already
-
-            boolean isFound = false;
-            int counter = 0;
-
-            while (isFound == false) {
-
-            }
+        		if (userMeetings[index][0].equals(stringStartTime)) {
+        			isFound = true;
+        		}
+        		if (isFound == true) {
+        			userMeetings[index][1] = topic;
+        		}
+        		if (userMeetings[index][0].equals(stringEndTime) || (userMeetings[index][0].equals("17.5"))) {
+        			reachedEnd = true;
+        			break;
+        		}	
+        		index++;
+        	}  
         }
     }
 
@@ -53,7 +73,7 @@ public class Calendar {
      */
     public void displayUsersCalendarForGivenDay(int userId, LocalDate calendarDay) {
         HashMap<Integer, String[][]> userDay = calendarDays.get(calendarDay);
-        String[][] allMeetings = userDay.get(organisingUser);
+        String[][] allMeetings = userDay.get(userId);
 
         System.out.println(String.format("Meetings scheduled on %s:", calendarDay));
         // iterate through the meetings
@@ -74,6 +94,7 @@ public class Calendar {
             }
         }
     }
+
 
     /*
      * completed and tested
@@ -148,4 +169,3 @@ public class Calendar {
         }
     }
 }
-
