@@ -21,15 +21,17 @@ public class Security {
     /**
      * Parametrized constructor
      *
-     * @param industry
-     * @param description
-     * @param listOfBoardMembers
+     * @param industry           - industry of the Security
+     * @param description        - string description of Security
+     * @param listOfBoardMembers - list of user IDs for the board members
      */
     public Security(Industry industry, String description, List<Integer> listOfBoardMembers) {
         this.description = description;
         this.industry = industry;
         this.listOfBoardMembers = listOfBoardMembers;
         priceList = new TreeMap<LocalDate, Float>();
+        allTimeHighPrice = Integer.MIN_VALUE;
+        allTimeLowPrice = Integer.MAX_VALUE;
     }
 
     public Map<LocalDate, Float> getPriceList() {
@@ -37,9 +39,23 @@ public class Security {
     }
 
     /**
+     * Insert a price in the priceList of the security
+     *
+     * @param price
+     * @param timeStamp
+     */
+    public void insertPrice(float price, LocalDate timeStamp) {
+        if (price > this.allTimeHighPrice)
+            allTimeHighPrice = price;
+        if (price < this.allTimeLowPrice)
+            allTimeLowPrice = price;
+        this.priceList.put(timeStamp, price);
+    }
+
+    /**
      * Get highest price in map
      *
-     * @return
+     * @return highest price
      */
     public float getHighestPrice() {
         float highestPrice = 0;
@@ -51,20 +67,36 @@ public class Security {
         return highestPrice;
     }
 
+    /**
+     * Get lowest price in map
+     *
+     * @return lowest price
+     */
     public float getLowestPrice() {
-        float lowestPrice = 999999;
-        for (Map.Entry<LocalDate, Float> entry : priceList.entrySet()) {
-            if (lowestPrice == 0 || entry.getValue() < lowestPrice) {
-                lowestPrice = entry.getValue();
-            }
-        }
-        return lowestPrice;
+        return allTimeLowPrice != Integer.MAX_VALUE ? allTimeLowPrice : 0;
     }
 
+    /**
+     * Get price history for a period of time
+     *
+     * @param startTime - starting timestamp
+     * @param endTime   - ending timestamp
+     * @return - sorted map of prices with key=timestamp and value=price
+     */
     public Map<LocalDate, Float> getAllPriceHistory(LocalDate startTime, LocalDate endTime) {
         TreeMap<LocalDate, Float> result = new TreeMap<>();
         return priceList.subMap(startTime, endTime);
     }
 
-
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "Security{" +
+                "industry=" + industry +
+                ", description='" + description + '\'' +
+                ", listOfBoardMembers=" + listOfBoardMembers +
+                ", priceList=" + priceList +
+                ", allTimeHighPrice=" + allTimeHighPrice +
+                ", allTimeLowPrice=" + allTimeLowPrice +
+                '}';
+    }
 }

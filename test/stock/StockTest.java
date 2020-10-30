@@ -18,6 +18,6 @@ public class StockTest {
         List<Integer> members = new ArrayList<>();
         members.add(1);
         stock.addBasicSecurityInfo(Industry.HEALTHCARE, "A very good company", members);
-        System.out.println(stock);
+        System.out.println(stock.toString());
     }
 }

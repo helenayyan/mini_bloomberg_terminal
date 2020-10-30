@@ -1,7 +1,6 @@
 package stock;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,7 @@ import java.util.Map;
 public class Stock {
 
     /**
-     * Security ID coming from outside -> generated somewhere else (usually a hash) - string
+     * Security ID as String, coming from outside -> generated somewhere else (usually a hash) - string
      */
     private Map<String, Security> securityList;
 
@@ -35,13 +34,25 @@ public class Stock {
         return new Security(industry, description, listOfBoardMembers);
     }
 
+
+    /**
+     * Add new price for a Security
+     *
+     * @param securityId - security to update
+     * @param price      - new price
+     * @param timeStamp  - new timestamp
+     */
+    void addTick(String securityId, float price, LocalDate timeStamp) {
+        securityList.get(securityId).insertPrice(price, timeStamp);
+    }
+
     /**
      * All time high of a security
      *
      * @param securityId
      * @return
      */
-    public float allTimeHigh(int securityId) {
+    public float allTimeHigh(String securityId) {
         return securityList.get(securityId).getHighestPrice();
     }
 
@@ -51,7 +62,7 @@ public class Stock {
      * @param securityId
      * @return
      */
-    public float allTimeLow(int securityId) {
+    public float allTimeLow(String securityId) {
         return securityList.get(securityId).getLowestPrice();
     }
 
@@ -62,19 +73,16 @@ public class Stock {
      * @param startTime
      * @param endTime
      */
-    public Map<LocalDate, Float> getAllPriceHistory(int securityId, LocalDate startTime, LocalDate endTime) {
+    public Map<LocalDate, Float> getAllPriceHistory(String securityId, LocalDate startTime, LocalDate endTime) {
         Security security = securityList.get(securityId);
-        Map<LocalDate, Float> result = Collections.emptyMap();
-        Map<LocalDate, Float> securityHistory = security.getPriceList();
 
-        for (Map.Entry<LocalDate, Float> entry : securityHistory.entrySet()) {
-            if (entry.getKey().compareTo(startTime) > 0 && entry.getKey().compareTo(endTime) < 0) {
-                result.put(entry.getKey(), entry.getValue());
-            }
-        }
-
-        return result;
+        return security.getAllPriceHistory(startTime, endTime);
     }
 
-
+    @java.lang.Override
+    public java.lang.String toString() {
+        return "Stock{" +
+                "securityList=" + securityList +
+                '}';
+    }
 }
