@@ -33,7 +33,7 @@ public class Calendar {
 
         //parse times to String
         String stringStartTime = Double.toString(startTime);
-        String stringEndTime = Double.toString(endTime);
+        String stringEndTime = Double.toString(endTime - 0.5);
         //assume that the time is entered in the format ( 1.30pm = 13.5)
 
         HashMap<Integer, String[][]> userDay = calendarDays.get(calendarDay);
@@ -83,12 +83,21 @@ public class Calendar {
             if (allMeetings[i][1] != "") {
                 String startTime = indexToTime(i); //meeting start time
                 String topic = allMeetings[i][1];
+                System.out.println(i);
                 i++;
                 // find the interval for meeting of this topic
-                while ((i < allMeetings.length) & (allMeetings[i][1] == topic)) {
-                    i++;
+                while (i < allMeetings.length) {
+                    if (allMeetings[i][1] == topic) {
+                        i++;
+                    } else {
+                        break;
+                    }
                 }
-                String endTime = indexToTime(i); // meeting ending time
+                String endTime = indexToTime(i);
+                if (i == allMeetings.length) {
+                    endTime = indexToTime(i - 1);
+                }
+                // meeting ending time
                 System.out.println(String.format("Time: %1s - %2s, Topic: %3s;", startTime, endTime, topic));
             } else {
                 i++;
