@@ -77,9 +77,14 @@ public class User {
      */
     public void displayUserProfile(String userID) {
         // userID coming from outside -> string type
-        userID = Integer.parseInt(userID);
-        UserDetails details = userMap.get(userID);
-        System.out.println("User Id: " + userID + "," + " User Name: " + details.getUserName() + "," + " Email Address: " +
+        int ID = Integer.parseInt(userID);
+        if (!userMap.containsKey(ID)) {
+            System.out.println("User " + ID + " not found.");
+            return;
+        }
+
+        UserDetails details = userMap.get(ID);
+        System.out.println("User Id: " + ID + "," + " User Name: " + details.getUserName() + "," + " Email Address: " +
                 details.getUserEmail() + "," + " Phone Number: " + details.getPhoneNumber() + "," + " Joining Date: " + details.getJoiningDate());
     }
 
@@ -90,8 +95,12 @@ public class User {
      * @param newName - the new name to be assigned
      */
     public void changeUserName(String userID, String newName) {
-        userID = Integer.parseInt(userID);
-        userMap.get(userID).setUserName(newName);
+        int ID = Integer.parseInt(userID);
+        if (!userMap.containsKey(ID)) {
+            System.out.println("User " + ID + " not found.");
+            return;
+        }
+        userMap.get(ID).setUserName(newName);
     }
 
     /**
@@ -101,8 +110,12 @@ public class User {
      * @param newEmailAddress - the new email address to be assigned
      */
     public void changeUserEmailAddress(String userID, String newEmailAddress) {
-        userID = Integer.parseInt(userID);
-        userMap.get(userID).setUserEmail(newEmailAddress);
+        int ID = Integer.parseInt(userID);
+        if (!userMap.containsKey(ID)) {
+            System.out.println("User " + ID + " not found.");
+            return;
+        }
+        userMap.get(ID).setUserEmail(newEmailAddress);
     }
 
     /**
@@ -112,8 +125,12 @@ public class User {
      * @param newPhoneNumber - the new phone number to be assigned
      */
     public void changeUserPhoneNumber(String userID, String newPhoneNumber) {
-        userID = Integer.parseInt(userID);
-        userMap.get(userID).setPhoneNumber(newPhoneNumber);
+        int ID = Integer.parseInt(userID);
+        if (!userMap.containsKey(ID)) {
+            System.out.println("User " + ID + " not found.");
+            return;
+        }
+        userMap.get(ID).setPhoneNumber(newPhoneNumber);
     }
 }
 

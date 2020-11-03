@@ -4,58 +4,58 @@ import java.util.HashSet;
 
 public class Calendar {
     private LocalDate date;
-    
+
     //each day in the calendar is mapped to a map of user ids and their meetings
     private HashMap<LocalDate, HashMap<Integer, String[][]>> calendarDays = new HashMap<LocalDate, HashMap<Integer, String[][]>>();
-    String[][] defaultMeetings = {{"8", ""}, {"8.5", ""}, {"9", ""}, {"9.5", ""}, {"10", ""}, {"10.5", ""}, {"11", ""}, {"11.5", ""}, {"12", ""},
-            {"12.5", ""}, {"13", ""}, {"13.5", ""}, {"14", ""}, {"14.5", ""}, {"15", ""}, {"15.5", ""}, {"16", ""}, {"16.5", ""}, {"17", ""}, {"17.5", ""}};
-    
-    public void createANewDay(HashSet<Integer> userIds) {
-    	//each user id is mapped to their meetings for a particular day
-	     HashMap<Integer, String[][]> userMeetings = new HashMap<Integer, String[][]>();
+    // String[][] defaultMeetings = {{"8", ""}, {"8.5", ""}, {"9", ""}, {"9.5", ""}, {"10", ""}, {"10.5", ""}, {"11", ""}, {"11.5", ""}, {"12", ""},{"12.5", ""}, {"13", ""}, {"13.5", ""}, {"14", ""}, {"14.5", ""}, {"15", ""}, {"15.5", ""}, {"16", ""}, {"16.5", ""}, {"17", ""}, {"17.5", ""}};
 
-	    //2-d array of meetings. Each element contains [time, topic/Null]
-	     String[][] defaultMeetings = {{"8.0", ""}, {"8.5", ""}, {"9.0", ""}, {"9.5", ""}, {"10.0", ""}, {"10.5", ""}, {"11.0", ""}, {"11.5", ""}, {"12.0", ""},
-	            {"12.5", ""}, {"13.0", ""}, {"13.5", ""}, {"14.0", ""}, {"14.5", ""}, {"15.0", ""}, {"15.5", ""}, {"16.0", ""}, {"16.5", ""}, {"17.0", ""}, {"17.5", ""}};
-	     
-	     for (int userId : userIds) {
-		     userMeetings.put(userId, defaultMeetings);
-	     }
-	     //Using current date as calendar day. Can be changed to any date
-	     calendarDays.put(LocalDate.now(), userMeetings);
+    public void createANewDay(HashSet<Integer> userIds) {
+        //each user id is mapped to their meetings for a particular day
+        HashMap<Integer, String[][]> userMeetings = new HashMap<Integer, String[][]>();
+
+        //2-d array of meetings. Each element contains [time, topic/Null]
+        String[][] defaultMeetings = {{"8.0", ""}, {"8.5", ""}, {"9.0", ""}, {"9.5", ""}, {"10.0", ""}, {"10.5", ""}, {"11.0", ""}, {"11.5", ""}, {"12.0", ""},
+                {"12.5", ""}, {"13.0", ""}, {"13.5", ""}, {"14.0", ""}, {"14.5", ""}, {"15.0", ""}, {"15.5", ""}, {"16.0", ""}, {"16.5", ""}, {"17.0", ""}, {"17.5", ""}};
+
+        for (int userId : userIds) {
+            userMeetings.put(userId, defaultMeetings);
+        }
+        //Using current date as calendar day. Can be changed to any date
+        calendarDays.put(LocalDate.now(), userMeetings);
     }
+
     /*
      * completed and tested
      */
     public void addMeeting(HashSet<Integer> listOfUsers, double startTime, double endTime, String topic, LocalDate calendarDay) {
 
-    	//parse times to String
-    	String stringStartTime = Double.toString(startTime);
-    	String stringEndTime = Double.toString(endTime);
+        //parse times to String
+        String stringStartTime = Double.toString(startTime);
+        String stringEndTime = Double.toString(endTime);
         //assume that the time is entered in the format ( 1.30pm = 13.5)
-    	
-        HashMap<Integer, String[][]> userDay = calendarDays.get(calendarDay);
-        
-        for (Integer j : listOfUsers) {
-        	String[][] userMeetings = userDay.get(j);
-        	
-        	boolean isFound = false;
-        	boolean reachedEnd = false;
-        	int index = 0;
-        	while ((isFound == false) ||  (reachedEnd == false)) {
 
-        		if (userMeetings[index][0].equals(stringStartTime)) {
-        			isFound = true;
-        		}
-        		if (isFound == true) {
-        			userMeetings[index][1] = topic;
-        		}
-        		if (userMeetings[index][0].equals(stringEndTime) || (userMeetings[index][0].equals("17.5"))) {
-        			reachedEnd = true;
-        			break;
-        		}	
-        		index++;
-        	}  
+        HashMap<Integer, String[][]> userDay = calendarDays.get(calendarDay);
+
+        for (Integer j : listOfUsers) {
+            String[][] userMeetings = userDay.get(j);
+
+            boolean isFound = false;
+            boolean reachedEnd = false;
+            int index = 0;
+            while ((!isFound) || (!reachedEnd)) {
+
+                if (userMeetings[index][0].equals(stringStartTime)) {
+                    isFound = true;
+                }
+                if (isFound) {
+                    userMeetings[index][1] = topic;
+                }
+                if (userMeetings[index][0].equals(stringEndTime) || (userMeetings[index][0].equals("17.5"))) {
+                    reachedEnd = true;
+                    break;
+                }
+                index++;
+            }
         }
     }
 
@@ -78,7 +78,7 @@ public class Calendar {
         // iterate through the meetings
         int i = 0;
         while (i < allMeetings.length) {
-            if (allMeetings[i][1] != "") {
+            if (!allMeetings[i][1].equals("")) {
                 String startTime = indexToTime(i); //meeting start time
                 String topic = allMeetings[i][1];
                 i++;
@@ -150,7 +150,7 @@ public class Calendar {
                 System.out.println(i);
             }
         }
-        
+
         return availabilities;
     }
 
@@ -159,7 +159,7 @@ public class Calendar {
      */
     private static String indexToTime(int sessionIndex) {
         int hour = (int) (sessionIndex / 2) + 8;
-        String timeString = new String();
+        String timeString;
         if (sessionIndex % 2 == 0) {
             timeString = String.format("%d:00", hour);
         } else {
@@ -172,20 +172,19 @@ public class Calendar {
      * in progress
      */
     public void meetingTimeScheduler(HashSet<Integer> listOfuserID, LocalDate calendarDay, double earliestTime, double latestTime, double timeInterval) {
-    	HashSet<String> availabilities = new HashSet<String>(); 
-    	int count = 0;
-    	
-        for (int userId : listOfuserID) {
-        	if (count == 0) {
-        		availabilities = meetingTimeSuggestion(userId, calendarDay, earliestTime, latestTime, timeInterval);
+        HashSet<String> availabilities = new HashSet<String>();
+        int count = 0;
 
-        	}
-        	else {
-        		HashSet<String> userAvailabilties = meetingTimeSuggestion(userId, calendarDay, earliestTime, latestTime, timeInterval);
-        		availabilities.retainAll(userAvailabilties);
-        	}
-        	
-        	count ++;
+        for (int userId : listOfuserID) {
+            if (count == 0) {
+                availabilities = meetingTimeSuggestion(userId, calendarDay, earliestTime, latestTime, timeInterval);
+
+            } else {
+                HashSet<String> userAvailabilties = meetingTimeSuggestion(userId, calendarDay, earliestTime, latestTime, timeInterval);
+                availabilities.retainAll(userAvailabilties);
+            }
+
+            count++;
         }
     }
 }
