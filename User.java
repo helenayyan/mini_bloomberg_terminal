@@ -51,9 +51,18 @@ public class User {
         }
     }
 
-    // To store the users information {key=userID: value=UserDetail}
+    /**
+     * To store the users information {key=userID: value=UserDetail}
+     */
     private HashMap<Integer, UserDetails> userMap = new HashMap<Integer, UserDetails>();
 
+    /**
+     * Add new user profile to User
+     *
+     * @param name         - the name of the new user
+     * @param emailAddress - the email address of the new user
+     * @param phoneNumber  -the phone number of the new user
+     */
     public void addNewUserProfile(String name, String emailAddress, String phoneNumber) {
         LocalDate today = LocalDate.now();
         UserDetails userDetails = new UserDetails(name, emailAddress, phoneNumber, today);
@@ -61,24 +70,49 @@ public class User {
         userId++;
     }
 
-    public void displayUserProfile(int userID) {
+    /**
+     * Print the user information
+     *
+     * @param userID - a userID from outside generated somewhere else
+     */
+    public void displayUserProfile(String userID) {
+        // userID coming from outside -> string type
+        userID = Integer.parseInt(userID);
         UserDetails details = userMap.get(userID);
         System.out.println("User Id: " + userID + "," + " User Name: " + details.getUserName() + "," + " Email Address: " +
                 details.getUserEmail() + "," + " Phone Number: " + details.getPhoneNumber() + "," + " Joining Date: " + details.getJoiningDate());
     }
 
-    //change User Name - get info hash map
-    public void changeUserName(int userID, String newName) {
+    /**
+     * Change User's name - get info hash map
+     *
+     * @param userID  - a userID from outside generated somewhere else
+     * @param newName - the new name to be assigned
+     */
+    public void changeUserName(String userID, String newName) {
+        userID = Integer.parseInt(userID);
         userMap.get(userID).setUserName(newName);
     }
 
-    //change user Email Address - get info hash map
-    public void changeUserEmailAddress(int userID, String newEmailAddress) {
+    /**
+     * Change user Email Address - get info hash map
+     *
+     * @param userID          - a userID from outside generated somewhere else
+     * @param newEmailAddress - the new email address to be assigned
+     */
+    public void changeUserEmailAddress(String userID, String newEmailAddress) {
+        userID = Integer.parseInt(userID);
         userMap.get(userID).setUserEmail(newEmailAddress);
     }
 
-    //change user Phone Number - get info hash map
-    public void changeUserPhoneNumber(int userID, String newPhoneNumber) {
+    /**
+     * Change user phone number- get info hash map
+     *
+     * @param userID         - a userID from outside generated somewhere else
+     * @param newPhoneNumber - the new phone number to be assigned
+     */
+    public void changeUserPhoneNumber(String userID, String newPhoneNumber) {
+        userID = Integer.parseInt(userID);
         userMap.get(userID).setPhoneNumber(newPhoneNumber);
     }
 }
