@@ -1,0 +1,5 @@
+package stock;
+
+public enum Industry {
+    TECHNOLOGY, FOOD_BEVERAGES, HEALTHCARE, FINANCIAL, COMMUNICATIONS, ENERGY
+}
