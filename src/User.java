@@ -90,7 +90,7 @@ public class User {
      * @param newName - the new name to be assigned
      */
     public void changeUserName(String userID, String newName) {
-        userID = Integer.parseInt(userID);
+        userId = Integer.parseInt(userID);
         userMap.get(userID).setUserName(newName);
     }
 
