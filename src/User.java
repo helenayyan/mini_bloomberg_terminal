@@ -77,7 +77,7 @@ public class User {
      */
     public void displayUserProfile(String userID) {
         // userID coming from outside -> string type
-        userId = Integer.parseInt(userID);
+        userID = Integer.parseInt(userID);
         UserDetails details = userMap.get(userID);
         System.out.println("User Id: " + userID + "," + " User Name: " + details.getUserName() + "," + " Email Address: " +
                 details.getUserEmail() + "," + " Phone Number: " + details.getPhoneNumber() + "," + " Joining Date: " + details.getJoiningDate());
@@ -90,7 +90,7 @@ public class User {
      * @param newName - the new name to be assigned
      */
     public void changeUserName(String userID, String newName) {
-        userId = Integer.parseInt(userID);
+        userID = Integer.parseInt(userID);
         userMap.get(userID).setUserName(newName);
     }
 
@@ -101,7 +101,7 @@ public class User {
      * @param newEmailAddress - the new email address to be assigned
      */
     public void changeUserEmailAddress(String userID, String newEmailAddress) {
-        userId = Integer.parseInt(userID);
+        userID = Integer.parseInt(userID);
         userMap.get(userID).setUserEmail(newEmailAddress);
     }
 
@@ -112,7 +112,7 @@ public class User {
      * @param newPhoneNumber - the new phone number to be assigned
      */
     public void changeUserPhoneNumber(String userID, String newPhoneNumber) {
-        userId = Integer.parseInt(userID);
+        userID = Integer.parseInt(userID);
         userMap.get(userID).setPhoneNumber(newPhoneNumber);
     }
 }
