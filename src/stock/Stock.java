@@ -25,13 +25,16 @@ public class Stock {
     /**
      * Add Security Info of a security
      *
+     * @param securityId         - ID of security to be added
      * @param industry           -  the industry of the security
      * @param description        - the description of the security
      * @param listOfBoardMembers - the board members of the security
      */
-    public Security addBasicSecurityInfo(Industry industry, String description, List<Integer> listOfBoardMembers) {
+    public Security addBasicSecurityInfo(String securityId, Industry industry, String description, List<Integer> listOfBoardMembers) {
         //TODO validate inputs
-        return new Security(industry, description, listOfBoardMembers);
+        Security security = new Security(industry, description, listOfBoardMembers);
+        securityList.put(securityId, security);
+        return security;
     }
 
 
@@ -42,38 +45,39 @@ public class Stock {
      * @param price      - new price
      * @param timeStamp  - new timestamp
      */
-    void addTick(String securityId, float price, LocalDate timeStamp) {
+    void addTick(String securityId, double price, LocalDate timeStamp) {
         securityList.get(securityId).insertPrice(price, timeStamp);
     }
 
     /**
      * All time high of a security
      *
-     * @param securityId
-     * @return
+     * @param securityId - the security to query for
+     * @return - highest price
      */
-    public float allTimeHigh(String securityId) {
+    public double allTimeHigh(String securityId) {
         return securityList.get(securityId).getHighestPrice();
     }
 
     /**
      * All time low of a security
      *
-     * @param securityId
-     * @return
+     * @param securityId - the security to query for
+     * @return - lowest price
      */
-    public float allTimeLow(String securityId) {
+    public double allTimeLow(String securityId) {
         return securityList.get(securityId).getLowestPrice();
     }
 
     /**
-     * All prices for a security in a given interval
+     * Get price history of a security in a given interval
      *
-     * @param securityId
-     * @param startTime
-     * @param endTime
+     * @param securityId - security to search for
+     * @param startTime  - interval start
+     * @param endTime    - interval end
+     * @return - map with keys: date and values: price
      */
-    public Map<LocalDate, Float> getAllPriceHistory(String securityId, LocalDate startTime, LocalDate endTime) {
+    public Map<LocalDate, Double> getAllPriceHistory(String securityId, LocalDate startTime, LocalDate endTime) {
         Security security = securityList.get(securityId);
 
         return security.getAllPriceHistory(startTime, endTime);

@@ -10,10 +10,10 @@ public class Security {
     private Industry industry;
     private String description;
     private List<Integer> listOfBoardMembers;
-    private SortedMap<LocalDate, Float> priceList;
+    private SortedMap<LocalDate, Double> priceList;
 
-    private float allTimeHighPrice;
-    private float allTimeLowPrice;
+    private Double allTimeHighPrice;
+    private Double allTimeLowPrice;
 
     public Security() {
     }
@@ -29,12 +29,13 @@ public class Security {
         this.description = description;
         this.industry = industry;
         this.listOfBoardMembers = listOfBoardMembers;
-        priceList = new TreeMap<LocalDate, Float>();
-        allTimeHighPrice = Integer.MIN_VALUE;
-        allTimeLowPrice = Integer.MAX_VALUE;
+        priceList = new TreeMap<LocalDate, Double>();
+        allTimeHighPrice = Double.MIN_VALUE;
+        allTimeLowPrice = Double.MAX_VALUE;
+        allTimeLowPrice = Double.MAX_VALUE;
     }
 
-    public Map<LocalDate, Float> getPriceList() {
+    public Map<LocalDate, Double> getPriceList() {
         return priceList;
     }
 
@@ -44,7 +45,7 @@ public class Security {
      * @param price
      * @param timeStamp
      */
-    public void insertPrice(float price, LocalDate timeStamp) {
+    public void insertPrice(Double price, LocalDate timeStamp) {
         if (price > this.allTimeHighPrice)
             allTimeHighPrice = price;
         if (price < this.allTimeLowPrice)
@@ -57,14 +58,8 @@ public class Security {
      *
      * @return highest price
      */
-    public float getHighestPrice() {
-        float highestPrice = 0;
-        for (Map.Entry<LocalDate, Float> entry : priceList.entrySet()) {
-            if (highestPrice == 0 || entry.getValue() > highestPrice) {
-                highestPrice = entry.getValue();
-            }
-        }
-        return highestPrice;
+    public double getHighestPrice() {
+        return allTimeHighPrice != Double.MIN_VALUE ? allTimeHighPrice : 0;
     }
 
     /**
@@ -72,8 +67,8 @@ public class Security {
      *
      * @return lowest price
      */
-    public float getLowestPrice() {
-        return allTimeLowPrice != Integer.MAX_VALUE ? allTimeLowPrice : 0;
+    public double getLowestPrice() {
+        return allTimeLowPrice != Double.MAX_VALUE ? allTimeLowPrice : 0;
     }
 
     /**
@@ -83,8 +78,8 @@ public class Security {
      * @param endTime   - ending timestamp
      * @return - sorted map of prices with key=timestamp and value=price
      */
-    public Map<LocalDate, Float> getAllPriceHistory(LocalDate startTime, LocalDate endTime) {
-        TreeMap<LocalDate, Float> result = new TreeMap<>();
+    public Map<LocalDate, Double> getAllPriceHistory(LocalDate startTime, LocalDate endTime) {
+        TreeMap<LocalDate, Double> result = new TreeMap<>();
         return priceList.subMap(startTime, endTime);
     }
 
