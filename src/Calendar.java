@@ -142,10 +142,14 @@ public class Calendar {
      * @param timeInterval
      * @return
      */
-    public ArrayList<String> meetingTimeSuggestion(String organisingUser, LocalDate calendarDay, double earliestTime, double latestTime, double timeInterval) {
+    public void meetingTimeSuggestion(String organisingUser, LocalDate calendarDay, double earliestTime, double latestTime, double timeInterval) {
+    	printAvailableMeetings(getAvailabiltiesForMeeting(organisingUser, calendarDay, earliestTime, latestTime, timeInterval));
+    }
+
+    private ArrayList<String> getAvailabiltiesForMeeting(String userId, LocalDate calendarDay, double earliestTime, double latestTime, double timeInterval) {
         //assume that the time intervals are put in double (eg 30m = 0.5 2hr = 2)
         HashMap<String, String[][]> userDay = calendarDays.get(calendarDay);
-        String[][] allMeetings = userDay.get(organisingUser);  // all meeting information of the user on the day
+        String[][] allMeetings = userDay.get(userId);  // all meeting information of the user on the day
         ArrayList<String> availabilities = new ArrayList<String>();  // to store the result available sessions
 
         int sessionRequired = (int) (timeInterval * 2);  // the number of half-hour sessions needed
@@ -176,21 +180,19 @@ public class Calendar {
                 startSession++;
             }
         }
-
+        return availabilities;
+    }
+    private void printAvailableMeetings(ArrayList<String> availabilities) {
         // print out results
         if (availabilities.isEmpty()) {
             System.out.println("Sorry, there is no available time slot in the given time frame for the meeting");
         } else {
-            System.out.printf("Available slots for User %s:", organisingUser);
-            System.out.println("");
+            System.out.println("Available slots:");
             for (String i : availabilities) {
                 System.out.println(i);
             }
         }
-        
-        return availabilities;
     }
-
     /*
      * for meetingInDays, given an index of the meeting, return a time formated string
      */
@@ -219,14 +221,17 @@ public class Calendar {
     	
         for (String userId : listOfuserID) {
         	if (count == 0) {
-        		availabilities = meetingTimeSuggestion(userId, calendarDay, earliestTime, latestTime, timeInterval);
+        		availabilities = getAvailabiltiesForMeeting(userId, calendarDay, earliestTime, latestTime, timeInterval);
 
         	}
         	else {
-        		ArrayList<String> userAvailabilties = meetingTimeSuggestion(userId, calendarDay, earliestTime, latestTime, timeInterval);
+        		ArrayList<String> userAvailabilties = getAvailabiltiesForMeeting(userId, calendarDay, earliestTime, latestTime, timeInterval);
         		availabilities.retainAll(userAvailabilties);
         	}        	
         	count ++;
         }
+        printAvailableMeetings(availabilities);
+        
+        
     }
 }
