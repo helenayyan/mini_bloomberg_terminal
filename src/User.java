@@ -75,9 +75,9 @@ public class User {
      *
      * @param userID - a userID from outside generated somewhere else
      */
-    public void displayUserProfile(String userID) {
+    public void displayUserProfile(String userId) {
         // userID coming from outside -> string type
-        userID = Integer.parseInt(userID);
+        int userID = Integer.parseInt(userId);
         UserDetails details = userMap.get(userID);
         System.out.println("User Id: " + userID + "," + " User Name: " + details.getUserName() + "," + " Email Address: " +
                 details.getUserEmail() + "," + " Phone Number: " + details.getPhoneNumber() + "," + " Joining Date: " + details.getJoiningDate());
@@ -89,8 +89,8 @@ public class User {
      * @param userID  - a userID from outside generated somewhere else
      * @param newName - the new name to be assigned
      */
-    public void changeUserName(String userID, String newName) {
-        userID = Integer.parseInt(userID);
+    public void changeUserName(String userId, String newName) {
+        int userID = Integer.parseInt(userId);
         userMap.get(userID).setUserName(newName);
     }
 
@@ -100,8 +100,8 @@ public class User {
      * @param userID          - a userID from outside generated somewhere else
      * @param newEmailAddress - the new email address to be assigned
      */
-    public void changeUserEmailAddress(String userID, String newEmailAddress) {
-        userID = Integer.parseInt(userID);
+    public void changeUserEmailAddress(String userId, String newEmailAddress) {
+        int userID = Integer.parseInt(userId);
         userMap.get(userID).setUserEmail(newEmailAddress);
     }
 
@@ -111,8 +111,8 @@ public class User {
      * @param userID         - a userID from outside generated somewhere else
      * @param newPhoneNumber - the new phone number to be assigned
      */
-    public void changeUserPhoneNumber(String userID, String newPhoneNumber) {
-        userID = Integer.parseInt(userID);
+    public void changeUserPhoneNumber(String userId, String newPhoneNumber) {
+        int userID = Integer.parseInt(userId);
         userMap.get(userID).setPhoneNumber(newPhoneNumber);
     }
 }
