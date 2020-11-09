@@ -29,16 +29,16 @@ public class UserTest {
         // add user 1
         users.addNewUserProfile("bukky", "bukky@", "39747");
         users.displayUserProfile("1");
-        String expected1 = "user.User Id: 1, user.User Name: bukky, Email Address: bukky@, Phone Number: 39747, Joining Date: " + today + "\n";
+        String expected1 = "User Id: 1, User Name: bukky, Email Address: bukky@, Phone Number: 39747, Joining Date: " + today + "\n";
 
         // add user 2
         users.addNewUserProfile("helena", "helena@", "45345343");
         users.displayUserProfile("2");
-        String expected2 = "user.User Id: 2, user.User Name: helena, Email Address: helena@, Phone Number: 45345343, Joining Date: " + today + "\n";
+        String expected2 = "User Id: 2, User Name: helena, Email Address: helena@, Phone Number: 45345343, Joining Date: " + today + "\n";
 
         // user 3 does not exist
         users.displayUserProfile("3");
-        String errorMessage = "user.User 3 not found.\n";
+        String errorMessage = "User 3 not found.\n";
 
         assertEquals(expected1 + expected2 + errorMessage, outContent.toString());
     }
@@ -55,7 +55,7 @@ public class UserTest {
         users.changeUserName("1", "BUKKY");
         users.displayUserProfile("1");
 
-        String expected = "user.User Id: 1, user.User Name: BUKKY, Email Address: bukky@, Phone Number: 39747, Joining Date: " + today + "\n";
+        String expected = "User Id: 1, User Name: BUKKY, Email Address: bukky@, Phone Number: 39747, Joining Date: " + today + "\n";
 
         assertEquals(expected, outContent.toString());
     }
@@ -72,7 +72,7 @@ public class UserTest {
         users.changeUserEmailAddress("1", "bukky@outlook.com");
         users.displayUserProfile("1");
 
-        String expected = "user.User Id: 1, user.User Name: bukky, Email Address: bukky@outlook.com, Phone Number: 39747, Joining Date: " + today + "\n";
+        String expected = "User Id: 1, User Name: bukky, Email Address: bukky@outlook.com, Phone Number: 39747, Joining Date: " + today + "\n";
 
         assertEquals(expected, outContent.toString());
     }
@@ -89,7 +89,7 @@ public class UserTest {
         users.changeUserPhoneNumber("1", "0000000");
         users.displayUserProfile("1");
 
-        String expected = "user.User Id: 1, user.User Name: bukky, Email Address: bukky@, Phone Number: 0000000, Joining Date: " + today + "\n";
+        String expected = "User Id: 1, User Name: bukky, Email Address: bukky@, Phone Number: 0000000, Joining Date: " + today + "\n";
 
         assertEquals(expected, outContent.toString());
     }
