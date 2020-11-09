@@ -1,6 +1,13 @@
-import News.Story;
-
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class News {
     private int id = 1;
@@ -15,7 +22,7 @@ public class News {
 
 
         public Story(String author, String title, String text, HashSet<String> tags, String storyID, Timestamp postTime) {
-            this.storyID = storyID
+            this.storyID = storyID;
             this.author = author;
             this.title = title;
             this.text = text;
@@ -25,7 +32,7 @@ public class News {
     }
 
     // To store the news {key -> storyID; value -> Story}
-    private HashMap<String, Story> storyMap = new HashMap<String, UserDetails>();
+    private HashMap<String, Story> storyMap = new HashMap<String, Story>();
 
     // To store the story from author {key -> author; value -> storyID}
     private HashMap<String, HashSet<String>> authorMap = new HashMap<String, HashSet<String>>();
@@ -33,19 +40,23 @@ public class News {
     // To store the stories of a tag {key->tag: value ->storyID}
     private HashMap<String, HashSet<String>> tagMap = new HashMap<String, HashSet<String>>();
 
-    // To store the stories of a tag {key->storyID: value ->readTime}
-    private HashMap<String, Integer> readTimeMap = new HashMap<String, Interger>();
+    // To store the amount of times a story has been read {key->storyID: value ->readTime}
+    private HashMap<String, Integer> readTimeMap = new HashMap<String, Integer>();
 
-    /**
-     * To be completed
-     */
+	/**
+	 * Adds a story to news
+	 * @param author
+	 * @param title
+	 * @param text
+	 * @param tags
+	 */
     public void addStory(String author, String title, String text, HashSet<String> tags) {
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         String storyID = Integer.toString(id);
 
         // add to storyMap
         Story story = new Story(author, title, text, tags, storyID, timestamp);
-        storyMap.put(storyID, Story);
+        storyMap.put(storyID, story);
 
         // add to authorMap
         if (authorMap.containsKey(author)) {
@@ -73,7 +84,6 @@ public class News {
                 tagMap.put(tag, stories);
             }
         }
-
         id++;
     }
 
@@ -83,7 +93,9 @@ public class News {
      * @param storyID: identifier of the story
      */
     public void markStoryAsRead(String storyID) {
-        readTimeMap.put(storyID, map.get(storyID) + 1);
+    	int newReadTime = readTimeMap.get(storyID) + 1;
+    	readTimeMap.replace(storyID, newReadTime);
+
     }
 
     /**
@@ -94,7 +106,7 @@ public class News {
         List sortedReadTimeStories = sortByValue(readTimeMap, false);
 
         for (int i = 0; (i < 10 & i < sortedReadTimeStories.size()); i++) {
-            String storyId = sortedReadTimeStories.get(i);
+            String storyId = (String) sortedReadTimeStories.get(i);
             displayStory(storyId);
         }
     }
@@ -110,11 +122,37 @@ public class News {
         for (String storyId : stories) {
             displayStory(storyId);
         }
-
     }
 
     public void displayStoriesWithTags(HashSet<String> listOfTags) {
-        HashMap<String,>
+        HashMap<String, Integer> numberOfTagMatches = new HashMap<String, Integer>();
+        
+        for (String tag : listOfTags) {
+        	HashSet<String> stories =  tagMap.get(tag);
+        	
+        	for (String story : stories) {
+                if (numberOfTagMatches.containsKey(story)) {
+                	int newNumberOfMatches = numberOfTagMatches.get(story) + 1;
+                	numberOfTagMatches.replace(story, newNumberOfMatches);
+
+                } else {
+                	numberOfTagMatches.put(story, 1);
+                }
+            }
+        	
+        }
+        
+
+        
+        List sortedTaggedStories = sortByValue(numberOfTagMatches, false);
+        
+
+
+        for (int i = 0; (i < 10 & i < sortedTaggedStories.size()); i++) {
+            String storyId = (String) sortedTaggedStories.get(i);
+            displayStory(storyId);
+        }
+        
     }
 
     /**
@@ -122,11 +160,11 @@ public class News {
      *
      * @param storyID: identifier of the story
      */
-    private static void displayStory(String storyID) {
-        Story story = storyMap.get(storyID);
-        System.out.println("Title: " + story.title);
+    private void displayStory(String storyID) {
+        Story story = storyMap.get(storyID);       
         System.out.println("Author: " + story.author);
-        System.out.println("Content : \n" + story.text);
+        System.out.println("Title: " + story.title);
+        System.out.println("Content: " + story.text);
     }
 
     /**
@@ -151,5 +189,4 @@ public class News {
 
         return orderedIDs;
     }
-
 }
