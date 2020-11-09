@@ -1,5 +1,3 @@
-package news;
-
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
