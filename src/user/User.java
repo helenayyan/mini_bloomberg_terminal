@@ -60,7 +60,7 @@ public class User {
     private HashMap<Integer, UserDetails> userMap = new HashMap<Integer, UserDetails>();
 
     /**
-     * Add new user profile to user.User
+     * Add new user profile to User
      *
      * @param name         - the name of the new user
      * @param emailAddress - the email address of the new user
@@ -82,12 +82,12 @@ public class User {
         // userID coming from outside -> string type
         userId = Integer.parseInt(userID);
         UserDetails details = userMap.get(userID);
-        System.out.println("user.User Id: " + userID + "," + " user.User Name: " + details.getUserName() + "," + " Email Address: " +
+        System.out.println("User Id: " + userID + "," + " User Name: " + details.getUserName() + "," + " Email Address: " +
                 details.getUserEmail() + "," + " Phone Number: " + details.getPhoneNumber() + "," + " Joining Date: " + details.getJoiningDate());
     }
 
     /**
-     * Change user.User's name - get info hash map
+     * Change User's name - get info hash map
      *
      * @param userID  - a userID from outside generated somewhere else
      * @param newName - the new name to be assigned

@@ -107,7 +107,7 @@ public class Calendar {
         String[][] allMeetings = userDay.get(userId);
         
 
-        System.out.println(String.format("Meetings scheduled for user.User %s on %s:", userId, calendarDay));
+        System.out.println(String.format("Meetings scheduled for User %s on %s:", userId, calendarDay));
         // iterate through the meetings
         int i = 0;
         while (i < allMeetings.length) {
