@@ -1,11 +1,13 @@
+package user;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.testng.Assert;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 public class UserTest {
@@ -38,7 +40,7 @@ public class UserTest {
         users.displayUserProfile("3");
         String errorMessage = "User 3 not found.\n";
 
-        Assert.assertEquals(expected1 + expected2 + errorMessage, outContent.toString(StandardCharsets.UTF_8));
+        assertEquals(expected1 + expected2 + errorMessage, outContent.toString());
     }
 
     /**
@@ -55,7 +57,7 @@ public class UserTest {
 
         String expected = "User Id: 1, User Name: BUKKY, Email Address: bukky@, Phone Number: 39747, Joining Date: " + today + "\n";
 
-        Assert.assertEquals(expected, outContent.toString(StandardCharsets.UTF_8));
+        assertEquals(expected, outContent.toString());
     }
 
     /**
@@ -72,7 +74,7 @@ public class UserTest {
 
         String expected = "User Id: 1, User Name: bukky, Email Address: bukky@outlook.com, Phone Number: 39747, Joining Date: " + today + "\n";
 
-        Assert.assertEquals(expected, outContent.toString(StandardCharsets.UTF_8));
+        assertEquals(expected, outContent.toString());
     }
 
     /**
@@ -89,6 +91,6 @@ public class UserTest {
 
         String expected = "User Id: 1, User Name: bukky, Email Address: bukky@, Phone Number: 0000000, Joining Date: " + today + "\n";
 
-        Assert.assertEquals(expected, outContent.toString(StandardCharsets.UTF_8));
+        assertEquals(expected, outContent.toString());
     }
 }

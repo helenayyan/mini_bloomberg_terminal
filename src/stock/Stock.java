@@ -8,12 +8,22 @@ import java.util.Map;
 /**
  * Service class to operate on Securities
  */
+
 public class Stock {
 
     /**
      * Security ID as String, coming from outside -> generated somewhere else (usually a hash) - string
      */
     private Map<String, Security> securityList;
+
+    /**
+     * Getter for security list
+     * @return securityList as Map
+     */
+    public Map<String, Security> getSecurityList() {
+        return securityList;
+    }
+
 
     /**
      * Empty Constructor
