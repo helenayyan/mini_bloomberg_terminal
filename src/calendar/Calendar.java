@@ -9,7 +9,11 @@ public class Calendar {
 
     //each day in the calendar is mapped to a map of user ids and their meetings
     private HashMap<LocalDate, HashMap<String, String[][]>> calendarDays = new HashMap<LocalDate, HashMap<String, String[][]>>();
-    
+
+    public HashMap<LocalDate, HashMap<String, String[][]>> getCalendarDays() {
+        return calendarDays;
+    }
+
     /**
      * Create a blank calendar for all users
      * @param userIds

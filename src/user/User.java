@@ -2,11 +2,14 @@ package user;
 
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.Map;
 
 public class User {
-    //start the userIds from 1.
-    private int userId = 1;
+
+    public String userId;
+
+    public HashMap<String, UserDetails> getUserMap() {
+        return userMap;
+    }
 
     public static class UserDetails {
         private String userName;
@@ -48,16 +51,12 @@ public class User {
         public LocalDate getJoiningDate() {
             return joiningDate;
         }
-
-        public void setJoiningDate(LocalDate joiningDate) {
-            this.joiningDate = joiningDate;
-        }
     }
 
     /**
      * To store the users information {key=userID: value=UserDetail}
      */
-    private HashMap<Integer, UserDetails> userMap = new HashMap<Integer, UserDetails>();
+    private HashMap<String, UserDetails> userMap = new HashMap<String, UserDetails>();
 
     /**
      * Add new user profile to User
@@ -69,65 +68,64 @@ public class User {
     public void addNewUserProfile(String name, String emailAddress, String phoneNumber) {
         LocalDate today = LocalDate.now();
         UserDetails userDetails = new UserDetails(name, emailAddress, phoneNumber, today);
+        userId = generateUserId(name, emailAddress, phoneNumber);
         userMap.put(userId, userDetails);
-        userId++;
+    }
+
+    /**
+     * generate userId
+     */
+    public String generateUserId(String name, String emailAddress, String phoneNumber) {
+        char ch1 = name.toUpperCase().charAt(0);
+        String ch2 = Integer.toString((emailAddress.length() * 2020) / 54);
+        char ch3 = phoneNumber.charAt(4);
+        char ch4 = phoneNumber.charAt(9);
+        char ch5 = phoneNumber.charAt(10);
+        String userId = ch1 + ch2 + ch3 + ch4 + ch5;
+        return userId;
     }
 
     /**
      * Print the user information
      *
-     * @param userID - a userID from outside generated somewhere else
+     * @param userId - a userID from outside generated somewhere else
      */
-    public void displayUserProfile(String userID) {
+    public void displayUserProfile(String userId) {
         // userID coming from outside -> string type
-        userId = Integer.parseInt(userID);
-        UserDetails details = userMap.get(userID);
-        System.out.println("User Id: " + userID + "," + " User Name: " + details.getUserName() + "," + " Email Address: " +
-                details.getUserEmail() + "," + " Phone Number: " + details.getPhoneNumber() + "," + " Joining Date: " + details.getJoiningDate());
+        UserDetails details = userMap.get(userId);
+        System.out.printf("User ID: %s, User Name: %s, Email Address: %s, Phone Number: %s, Joining Date: %s.", userId, details.getUserName(), details.getUserEmail(), details.getPhoneNumber(), details.getJoiningDate());
+        System.out.println();
     }
 
     /**
      * Change User's name - get info hash map
      *
-     * @param userID  - a userID from outside generated somewhere else
+     * @param userId  - a userID from outside generated somewhere else
      * @param newName - the new name to be assigned
      */
-    public void changeUserName(String userID, String newName) {
-        userId = Integer.parseInt(userID);
-        userMap.get(userID).setUserName(newName);
+    public void changeUserName(String userId, String newName) {
+        userMap.get(userId).setUserName(newName);
     }
 
     /**
      * Change user Email Address - get info hash map
      *
-     * @param userID          - a userID from outside generated somewhere else
+     * @param userId          - a userID from outside generated somewhere else
      * @param newEmailAddress - the new email address to be assigned
      */
-    public void changeUserEmailAddress(String userID, String newEmailAddress) {
-        userId = Integer.parseInt(userID);
-        System.out.println(userMap);
-        userMap.get(userID).setUserEmail(newEmailAddress);
+    public void changeUserEmailAddress(String userId, String newEmailAddress) {
+        userMap.get(userId).setUserEmail(newEmailAddress);
     }
 
     /**
      * Change user phone number- get info hash map
      *
-     * @param userID         - a userID from outside generated somewhere else
+     * @param userId         - a userID from outside generated somewhere else
      * @param newPhoneNumber - the new phone number to be assigned
      */
-    public void changeUserPhoneNumber(String userID, String newPhoneNumber) {
-        userId = Integer.parseInt(userID);
-        userMap.get(userID).setPhoneNumber(newPhoneNumber);
-    }
-
-    /**
-     * Get a map of the existing users
-     * @return Map with ID's as key and the Users as value
-     */
-    public Map<Integer, UserDetails> getUserMap(){
-        return this.userMap;
+    public void changeUserPhoneNumber(String userId, String newPhoneNumber) {
+        userMap.get(userId).setPhoneNumber(newPhoneNumber);
     }
 }
-
 
 
