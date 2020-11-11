@@ -1,3 +1,7 @@
+import calendar.Calendar;
+import fx.FX;
+import user.User;
+
 import java.time.LocalDate;
 import java.util.HashSet;
 
@@ -31,7 +35,6 @@ public class Main {
 
 	     newDay.meetingTimeScheduler(listOfUsers, LocalDate.now(), 12, 14, 0.5);
 	     
-	     //test for FX
 	     FX fcn = new FX(null, null, 0, null);
 	     fcn.addForeignExchangeValue("euro", "lei", 4.5, 1234);
 	     fcn.addForeignExchangeValue("euro", "pound", 3.5, 123);

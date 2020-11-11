@@ -1,18 +1,21 @@
+package fx;
+
 import java.util.*;
 import javafx.util.Pair;
 
-class FX extends Currency{
+public class FX extends Currency{
 	
 	TreeSet<Currency> ts = new TreeSet<Currency>(new TimestampComp());
 	HashMap<String, Pair<Double, Integer>> map = new HashMap<String, Pair<Double, Integer>>();
 	HashSet<String> currency = new HashSet<String>();
 	static int nrCurrencies = 0;
-	
+
+
 	public FX(String fromCurrency, String toCurrency, double price, Integer timestamp) {
 		super(toCurrency, fromCurrency, price, timestamp);
 	}
 	
-	void addForeignExchangeValue(String fromCurrency, String toCurrency, double price, Integer timestamp){
+	public void addForeignExchangeValue(String fromCurrency, String toCurrency, double price, Integer timestamp){
 		//TreeSet used for the next 2 functions
 		Currency c = new Currency(fromCurrency, toCurrency, price, timestamp);
 		ts.add(c);
@@ -31,7 +34,7 @@ class FX extends Currency{
 		nrCurrencies++;
     }
 
-    void displayTop10RecentPrices(){
+    public void displayTop10RecentPrices(){
     	Iterator iterator = ts.iterator();
     	int it = 0;
 	    	while(iterator.hasNext() && it < 10){
@@ -40,7 +43,7 @@ class FX extends Currency{
 	    		}		
     }
 
-    void displayTopMostRecentPricesForCurrencyPair(String fromCurrency, String toCurrency, Integer numberOfPrices){
+    public void displayTopMostRecentPricesForCurrencyPair(String fromCurrency, String toCurrency, Integer numberOfPrices){
     	Iterator iterator = ts.iterator();
     	int it = 0;
     		while(iterator.hasNext() && it < numberOfPrices) {
@@ -70,7 +73,7 @@ class FX extends Currency{
     	}	
     }*/
 
-    void displayBestPriceToBuyCurrency(String fromCurrency, String toCurrency){
+    public void displayBestPriceToBuyCurrency(String fromCurrency, String toCurrency){
     	String str1 = fromCurrency + " " + toCurrency;
     	for(String k:currency){ 
   		    	String str2 = fromCurrency + " " + k;

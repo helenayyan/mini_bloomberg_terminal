@@ -17,6 +17,15 @@ public class Stock {
     private Map<String, Security> securityList;
 
     /**
+     * Getter for security list
+     * @return securityList as Map
+     */
+    public Map<String, Security> getSecurityList() {
+        return securityList;
+    }
+
+
+    /**
      * Empty Constructor
      */
     public Stock() {

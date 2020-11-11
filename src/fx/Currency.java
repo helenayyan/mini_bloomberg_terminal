@@ -1,3 +1,5 @@
+package fx;
+
 import java.util.Comparator;
 
 class TimestampComp implements Comparator<Currency>{
@@ -11,7 +13,7 @@ class TimestampComp implements Comparator<Currency>{
 	}
 }
 
-class Currency{
+public class Currency{
 	String toCurrency;
 	String fromCurrency;
 	double price;
